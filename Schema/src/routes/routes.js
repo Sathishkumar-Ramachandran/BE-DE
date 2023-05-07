@@ -2,7 +2,7 @@ const express = require("express");
 const userRouter = express.Router();
 const UserSchemaCrud = require("../logics/SchemaCollection");
 
-userRouter.post("saveUserSchema", async (req, res) => {
+userRouter.post("/saveUserSchema", async (req, res) => {
   const flag = await UserSchemaCrud.checkIsUserSchemaDefiend(
     req.body.companyId
   );

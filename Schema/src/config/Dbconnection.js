@@ -7,7 +7,7 @@ const client = new cassandra.Client({
   keyspace: 'mykeyspace' // replace with your Cassandra keyspace
 });
 
-client.connect((err) => {
+await client.connect((err) => {
   if (err) {
     console.log(`Error connecting to Cassandra: ${err}`);
   } else {
