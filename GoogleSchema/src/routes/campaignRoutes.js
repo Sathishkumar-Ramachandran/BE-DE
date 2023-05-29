@@ -5,7 +5,7 @@ const {
 } = require("../logics/CampaignSchema.js");
 const campaignRouter = express.Router();
 
-campaignRouter.post("/campaign/campaignform", async (req, res) => {
+campaignRouter.post("/campaignschema/123456", async (req, res) => {
   const flag = await CampaignStructure.checkWithCompanyId(req.body.companyId);
   console.log(flag);
   if (flag === 1) {
@@ -27,7 +27,7 @@ campaignRouter.post("/campaign/campaignform", async (req, res) => {
   }
 });
 
-campaignRouter.get("/campaings/getSchema/:companyid/", async (req, res) => {
+campaignRouter.get("/getschema/:companyid/", async (req, res) => {
   const schema = await CampaignStructure.getSchema(req.params.companyid);
   if (schema) {
     res.json(schema.schema);
@@ -36,7 +36,7 @@ campaignRouter.get("/campaings/getSchema/:companyid/", async (req, res) => {
   }
 });
 
-campaignRouter.post("/campaigns/createcampaign/:companyid/", async (req, res) => {
+campaignRouter.post("/createcampaign/:companyid/", async (req, res) => {
   const schema = await CampaignStructure.getSchema(req.body.companyId);
   if (schema) {
     const d = await campaignCreation.addCampaign(schema.mongo_schema, req.body.data,req.body.companyId);
@@ -50,7 +50,7 @@ campaignRouter.post("/campaigns/createcampaign/:companyid/", async (req, res) =>
   }
 });
 
-campaignRouter.get("/campaigns/allcampaigns/:companyid", async (req, res) => {
+campaignRouter.get("/allcampaigns/:companyid", async (req, res) => {
   const schema = await CampaignStructure.getSchema(req.params.companyid);
   if (schema) {
     const allusers=await campaignCreation.getAllCampaigns(schema.mongo_schema,req.params.companyid);

@@ -3,9 +3,9 @@ const {
     googleUserSchemaStructure,
     userCreation,
 } = require("../logics/googleUserSchema");
-const googleRouter = express.Router();
+const userRouter = express.Router();
 
-googleRouter.post("/addGoogleSchema", async (req, res) => {
+userRouter.post("/users/userschema", async (req, res) => {
    
   const flag = await googleUserSchemaStructure.checkWithCompanyId(req.body.companyId);
   console.log(flag);
@@ -27,7 +27,7 @@ googleRouter.post("/addGoogleSchema", async (req, res) => {
     return res.sendStatus(500);
   }
 });
-googleRouter.get("/getSchema/:companyid/", async (req, res) => {
+userRouter.get("/users/getSchema/:companyid/", async (req, res) => {
   const schema = await googleUserSchemaStructure.getSchema(req.params.companyid);
   if (schema) {
     res.json(schema.schema);
@@ -36,7 +36,7 @@ googleRouter.get("/getSchema/:companyid/", async (req, res) => {
   }
 });
 
-googleRouter.post("/addUser", async (req, res) => {
+userRouter.post("/users/addUser", async (req, res) => {
   const schema = await googleUserSchemaStructure.getSchema(req.body.companyId);
   if (schema) {
     const d = await userCreation.addUser(schema.mongo_schema, req.body.data,req.body.companyId);
@@ -50,7 +50,7 @@ googleRouter.post("/addUser", async (req, res) => {
   }
 });
 
-googleRouter.get("/getAllUser/:companyid", async (req, res) => {
+userRouter.get("/getAllUser/:companyid", async (req, res) => {
   const schema = await googleUserSchemaStructure.getSchema(req.params.companyid);
   if (schema) {
     const allusers=await userCreation.getAllUser(schema.mongo_schema,req.params.companyid);
@@ -60,4 +60,4 @@ googleRouter.get("/getAllUser/:companyid", async (req, res) => {
     res.send("failed");
   }
 });
-module.exports = googleRouter;
+module.exports = userRouter;

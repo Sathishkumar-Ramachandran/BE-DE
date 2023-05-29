@@ -1,7 +1,7 @@
-const googleUserSchema = require("../models/userSchema");
+const campaignSchema = require("../models/campaignSchema");
 const mongoose = require("mongoose");
 
-const googleUserSchemaStructure = {
+const GroupsStructure = {
   addSchema: async (Obj) => {
     try {
       let requestjson;
@@ -13,7 +13,7 @@ const googleUserSchemaStructure = {
         };
       });
       requestjson={...requestjson,companyId:{type:"Number",required:true}}
-      const schema = await googleUserSchema.create({
+      const schema = await campaignSchema.create({
         schema: Obj.schema,
         mongo_schema: [requestjson],
         companyId: Obj.companyId,
@@ -26,12 +26,12 @@ const googleUserSchemaStructure = {
     }
   },
   getSchema: async (company_id) => {
-    const schema = await googleUserSchema.findOne({ companyId: company_id });
+    const schema = await groupsSchema.findOne({ companyId: company_id });
     return schema;
   },
   checkWithCompanyId: async (id) => {
     try {
-      const schema = await googleUserSchema.findOne({ companyId: id });
+      const schema = await groupsSchema.findOne({ companyId: id });
       if (schema) {
         return 1;
       } else {
@@ -53,7 +53,7 @@ const googleUserSchemaStructure = {
         };
       });
       requestjson={...requestjson,companyId:{type:"Number",required:true}}
-      const result = await googleUserSchema.updateOne(
+      const result = await groupsSchema.updateOne(
         { companyId: Obj.companyId },
         { schema: Obj.schema, mongo_schema: [requestjson] }
       );
@@ -64,8 +64,8 @@ const googleUserSchemaStructure = {
     }
   },
 };
-const googleUserCreation = {
-  addUser: async (schema, data, id) => {
+const groupCreation = {
+  addCampaign: async (schema, data, id) => {
     const defineschema = new mongoose.Schema(schema);
     let keysArray = schema.map((obj) => Object.keys(obj));
     let flatKeysArray = [].concat(...keysArray);
@@ -85,29 +85,29 @@ const googleUserCreation = {
     final = { ...final, "companyId": id };
     console.log(final);
     try {
-      const definemodel = mongoose.model("UserInfos", defineschema);
-      const userinfo = await definemodel.create(final);
-      return userinfo;
+      const definemodel = mongoose.model("Groups", defineschema);
+      const groupInfo = await definemodel.create(final);
+      return groupInfo;
     } catch (e) {
-      mongoose.deleteModel("UserInfos");
-      const userinfo = await mongoose
-        .model("UserInfos", defineschema)
+      mongoose.deleteModel("Groups");
+      const campaignInfo = await mongoose
+        .model("Groups", defineschema)
         .create(final);
-      return userinfo;
+      return campaignInfo;
     }
   },
-  getAllUser: async (schema,id) => {
+  getAllCampaigns: async (schema,id) => {
     try {
       const defineschema = new mongoose.Schema(schema);
-      let UserInfosModel;
+      let groupInfoModel;
       try {
-        UserInfosModel = mongoose.model("UserInfos");
+        groupInfoModel = mongoose.model("Groups");
       } catch (error) {
-        UserInfosModel = mongoose.model("UserInfos", defineschema);
+        groupInfoModel = mongoose.model("Groups", groupSchema);
       }
 
-      const users = await UserInfosModel.find({companyId:id});
-      return users;
+      const Groups = await groupInfoModel.find({companyId:id});
+      return Groups;
     } catch (error) {
       // Handle any errors that occur during the query
       console.error("Error retrieving users:", error);
@@ -116,4 +116,4 @@ const googleUserCreation = {
   },
 };
 
-module.exports = { googleUserSchemaStructure, googleUserCreation };
+module.exports = { GroupsStructure, groupCreation };

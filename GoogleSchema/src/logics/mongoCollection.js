@@ -1,7 +1,10 @@
-const googleUserSchema = require("../models/userSchema");
+const userSchema = require("../models/schema");
+const userFieldsDefault = require("../models/default/adminUser")
 const mongoose = require("mongoose");
 
-const googleUserSchemaStructure = {
+
+
+const CampaignStructure = {
   addSchema: async (Obj) => {
     try {
       let requestjson;
@@ -13,7 +16,7 @@ const googleUserSchemaStructure = {
         };
       });
       requestjson={...requestjson,companyId:{type:"Number",required:true}}
-      const schema = await googleUserSchema.create({
+      const schema = await userSchema.create({
         schema: Obj.schema,
         mongo_schema: [requestjson],
         companyId: Obj.companyId,
@@ -26,12 +29,12 @@ const googleUserSchemaStructure = {
     }
   },
   getSchema: async (company_id) => {
-    const schema = await googleUserSchema.findOne({ companyId: company_id });
+    const schema = await userSchema.findOne({ companyId: company_id });
     return schema;
   },
   checkWithCompanyId: async (id) => {
     try {
-      const schema = await googleUserSchema.findOne({ companyId: id });
+      const schema = await userSchema.findOne({ companyId: id });
       if (schema) {
         return 1;
       } else {
@@ -53,7 +56,7 @@ const googleUserSchemaStructure = {
         };
       });
       requestjson={...requestjson,companyId:{type:"Number",required:true}}
-      const result = await googleUserSchema.updateOne(
+      const result = await userSchema.updateOne(
         { companyId: Obj.companyId },
         { schema: Obj.schema, mongo_schema: [requestjson] }
       );
@@ -64,7 +67,7 @@ const googleUserSchemaStructure = {
     }
   },
 };
-const googleUserCreation = {
+const CampaignCreation = {
   addUser: async (schema, data, id) => {
     const defineschema = new mongoose.Schema(schema);
     let keysArray = schema.map((obj) => Object.keys(obj));
@@ -116,4 +119,4 @@ const googleUserCreation = {
   },
 };
 
-module.exports = { googleUserSchemaStructure, googleUserCreation };
+module.exports = { CampaignStructure, CampaignCreation };
