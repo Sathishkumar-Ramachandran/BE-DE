@@ -15,7 +15,7 @@ const app = Express();
     app.use(cors());
     app.use(morgan('dev'));
     // app.use('/api/cassandra/FormFields',userRouter);
-    app.use('/api/formfields/google/campaings', campaignRouter);
+    app.use('/api/formfields/google/campaigns', campaignRouter);
     app.use('/api/formfields/google/users/roles', rolesRouter);
     app.use('/api/formfields/google/users/user', userRouter);
     

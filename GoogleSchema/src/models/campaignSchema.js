@@ -9,7 +9,7 @@ const campaignSchemaStrcuture = mongoose.Schema({
     companyId: { type: String, require: true },
   });
 
-  const campaignSchema = mongoose.model("campaignSchemaStrcutures", campaignSchemaStrcuture);
+  const campaignSchema = mongoose.model("campaignSchemaStrcuture", campaignSchemaStrcuture);
 
 
 module.exports = campaignSchema;

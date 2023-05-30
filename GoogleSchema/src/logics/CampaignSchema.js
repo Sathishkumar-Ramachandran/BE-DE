@@ -106,7 +106,7 @@ const campaignCreation = {
         UserInfosModel = mongoose.model("Campaigns", campaignSchema);
       }
 
-      const Campaigns = await CampaignInfoModel.find({companyId:id});
+      const Campaigns = await campaignInfoModel.find({companyId:id});
       return Campaigns;
     } catch (error) {
       // Handle any errors that occur during the query
