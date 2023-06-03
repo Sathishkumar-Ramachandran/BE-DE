@@ -10,7 +10,7 @@ const connectDB= async()=>{
         connectTimeoutMS: 30000, // Set connection timeout to 30 seconds
       };
     try{
-     const con=await moongoose.connect(DB)
+     const con=await moongoose.connect(DB);
      console.log(`connected to the MongoDB Database ${con.connection.name}`);
     }
     catch(err){

@@ -98,12 +98,13 @@ const campaignCreation = {
   },
   getAllCampaigns: async (schema,id) => {
     try {
-      const defineschema = new mongoose.Schema(schema);
+      const campaignSchema = new mongoose.Schema(schema);
       let campaignInfoModel;
       try {
-        campaignInfoModel = mongoose.model("Campaigns");
+        campaignInfoModel = mongoose.model("campaigns");
       } catch (error) {
-        UserInfosModel = mongoose.model("Campaigns", campaignSchema);
+        campaignInfoModel = mongoose.model("campaigns", campaignSchema);
+        console.log("Error Occured");
       }
 
       const Campaigns = await campaignInfoModel.find({companyId:id});
