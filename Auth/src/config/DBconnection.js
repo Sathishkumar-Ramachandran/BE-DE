@@ -10,7 +10,7 @@ const connectDB= async()=>{
         connectTimeoutMS: 30000, 
       };
     try{
-     const con=await moongoose.connect("mongodb://127.0.0.1:27017/Engine")
+     const con=await moongoose.connect("mongodb://127.0.0.1:27017/DouleEngine")
      console.log(`connected to the MongoDB Database ${con.connection.name}`);
     }
     catch(err){

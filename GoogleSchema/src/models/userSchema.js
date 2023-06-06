@@ -7,6 +7,7 @@ const userSchemaStrcuture = mongoose.Schema({
     createdTime: { type: Date, required: false, default: new Date() },
     updatedTime: { type: Date, required: false },
     companyId: { type: String, require: true },
+   
   });
 
   const googleUserSchema = mongoose.model("GoogleUserSchema", userSchemaStrcuture);

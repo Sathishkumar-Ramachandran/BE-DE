@@ -53,8 +53,8 @@ campaignRouter.post("/createcampaign/:companyid/", async (req, res) => {
 campaignRouter.get("/allcampaigns/:companyid", async (req, res) => {
   const schema = await CampaignStructure.getSchema(req.params.companyid);
   if (schema) {
-    const allusers = await campaignCreation.getAllCampaigns(schema.mongo_schema,req.params.companyid);
-    res.json(allusers);
+    const allcampaigns = await campaignCreation.getAllCampaigns(schema.mongo_schema,req.params.companyid);
+    res.json(allcampaigns);
   } else {
     res.send("failed");
   }

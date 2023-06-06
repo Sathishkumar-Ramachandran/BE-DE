@@ -26,8 +26,8 @@ const googleUserSchemaStructure = {
     }
   },
   getSchema: async (company_id) => {
-    const schema = await googleUserSchema.findOne({ companyId: company_id });
-    return schema;
+    const userschema = await googleUserSchema.findOne({ companyId: company_id });
+    return userschema;
   },
   checkWithCompanyId: async (id) => {
     try {
@@ -85,28 +85,28 @@ const googleUserCreation = {
     final = { ...final, "companyId": id };
     console.log(final);
     try {
-      const definemodel = mongoose.model("UserInfos", defineschema);
+      const definemodel = mongoose.model("Google Users", defineschema);
       const userinfo = await definemodel.create(final);
       return userinfo;
     } catch (e) {
-      mongoose.deleteModel("UserInfos");
+      mongoose.deleteModel("Google Users");
       const userinfo = await mongoose
-        .model("UserInfos", defineschema)
+        .model("Google Users", defineschema)
         .create(final);
       return userinfo;
     }
   },
   getAllUser: async (schema,id) => {
     try {
-      const defineschema = new mongoose.Schema(schema);
-      let UserInfosModel;
+      const userSchema = new mongoose.Schema(schema);
+      let UserInfoModel;
       try {
-        UserInfosModel = mongoose.model("UserInfos");
+        UserInfoModel = mongoose.model("Google Users");
       } catch (error) {
-        UserInfosModel = mongoose.model("UserInfos", defineschema);
+        UserInfoModel = mongoose.model("Google Users", userSchema);
       }
 
-      const users = await UserInfosModel.find({companyId:id});
+      const users = await UserInfoModel.find({companyId:id});
       return users;
     } catch (error) {
       // Handle any errors that occur during the query

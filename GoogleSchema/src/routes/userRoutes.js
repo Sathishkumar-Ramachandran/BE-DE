@@ -1,13 +1,13 @@
 const express = require("express");
 const {
     googleUserSchemaStructure,
-    userCreation,
+    googleUserCreation,
 } = require("../logics/googleUserSchema");
 const userRouter = express.Router();
 
-userRouter.post("/users/userschema", async (req, res) => {
+userRouter.post("/userschema/123456", async (req, res) => {
    
-  const flag = await googleUserSchemaStructure.checkWithCompanyId(req.body.companyId);
+  const flag = await googleUserSchemaStructure.checkWithCompanyId(req.body.companyid);
   console.log(flag);
   if (flag === 1) {
     const d = await googleUserSchemaStructure.updateSchema(req.body);
@@ -27,7 +27,7 @@ userRouter.post("/users/userschema", async (req, res) => {
     return res.sendStatus(500);
   }
 });
-userRouter.get("/users/getSchema/:companyid/", async (req, res) => {
+userRouter.get("/getschema/:companyid/", async (req, res) => {
   const schema = await googleUserSchemaStructure.getSchema(req.params.companyid);
   if (schema) {
     res.json(schema.schema);
@@ -36,12 +36,12 @@ userRouter.get("/users/getSchema/:companyid/", async (req, res) => {
   }
 });
 
-userRouter.post("/users/addUser", async (req, res) => {
+userRouter.post("/createuser/:companyid", async (req, res) => {
   const schema = await googleUserSchemaStructure.getSchema(req.body.companyId);
   if (schema) {
-    const d = await userCreation.addUser(schema.mongo_schema, req.body.data,req.body.companyId);
+    const d = await googleUserCreation.addUser(schema.mongo_schema, req.body.data,req.body.companyId);
     if (d) {
-      res.send("sucess");
+      res.send("success");
     } else {
       res.send("failed");
     }
@@ -50,10 +50,10 @@ userRouter.post("/users/addUser", async (req, res) => {
   }
 });
 
-userRouter.get("/getAllUser/:companyid", async (req, res) => {
+userRouter.get("/getallusers/:companyid", async (req, res) => {
   const schema = await googleUserSchemaStructure.getSchema(req.params.companyid);
   if (schema) {
-    const allusers=await userCreation.getAllUser(schema.mongo_schema,req.params.companyid);
+    const allusers=await googleUserCreation.getAllUser(schema.mongo_schema,req.params.companyid);
     res.json(allusers);
 
   } else {
