@@ -1,8 +1,8 @@
 const express = require("express");
-const {
-    UserSchemaStructure,
-    UserCreation,
-} = require("../logics/adminUserSchema");
+// const {
+//     UserSchemaStructure,
+//     UserCreation,
+// } = require("../logics/adminUserSchema");
 const adminuserRouter = express.Router();
 
 adminuserRouter.post("/userschema/123456", async (req, res) => {

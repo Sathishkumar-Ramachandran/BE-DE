@@ -1,7 +1,7 @@
  const mongoose=require('mongoose');
 
 
- const companySchema=new mongoose.Schema({
+ const companySchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   created_at: { type: Date, default: Date.now },
@@ -11,7 +11,7 @@
   status:{type:String,default:'Active',required:true},
   verified:{type:Boolean,default:false},
   plan_id:{type:Number,required:true},
-  expired_on:{type:Date(),required:false},
+  expired_on:{type:Date,required:false},
   companyAddress:{
      City:{type:String},
      State:{type:String},

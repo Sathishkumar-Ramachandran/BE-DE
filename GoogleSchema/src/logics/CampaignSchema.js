@@ -95,7 +95,7 @@ const campaignCreation = {
         .create(final);
       return campaignInfo;
     }
-  },
+  },  
   getAllCampaigns: async (schema,id) => {
     try {
       const campaignSchema = new mongoose.Schema(schema);

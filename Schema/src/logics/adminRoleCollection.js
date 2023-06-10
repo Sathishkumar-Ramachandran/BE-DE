@@ -1,7 +1,7 @@
-const googleUserSchema = require("../models/googleSchema");
+const roleSchema = require("../models/roleSchema");
 const mongoose = require("mongoose");
 
-const googleUserSchemaStructure = {
+const RoleSchemaStructure = {
   addSchema: async (Obj) => {
     try {
       let requestjson;
@@ -13,7 +13,7 @@ const googleUserSchemaStructure = {
         };
       });
       requestjson={...requestjson,companyId:{type:"Number",required:true}}
-      const schema = await googleUserSchema.create({
+      const schema = await roleSchema.create({
         schema: Obj.schema,
         mongo_schema: [requestjson],
         companyId: Obj.companyId,
@@ -26,12 +26,12 @@ const googleUserSchemaStructure = {
     }
   },
   getSchema: async (company_id) => {
-    const schema = await googleUserSchema.findOne({ companyId: company_id });
+    const schema = await roleSchema.findOne({ companyId: company_id });
     return schema;
   },
   checkWithCompanyId: async (id) => {
     try {
-      const schema = await googleUserSchema.findOne({ companyId: id });
+      const schema = await roleSchema.findOne({ companyId: id });
       if (schema) {
         return 1;
       } else {
@@ -53,7 +53,7 @@ const googleUserSchemaStructure = {
         };
       });
       requestjson={...requestjson,companyId:{type:"Number",required:true}}
-      const result = await googleUserSchema.updateOne(
+      const result = await roleSchema.updateOne(
         { companyId: Obj.companyId },
         { schema: Obj.schema, mongo_schema: [requestjson] }
       );
@@ -64,8 +64,8 @@ const googleUserSchemaStructure = {
     }
   },
 };
-const googleUserCreation = {
-  addUser: async (schema, data, id) => {
+const roleCreation = {
+  addRole: async (schema, data, id) => {
     const defineschema = new mongoose.Schema(schema);
     let keysArray = schema.map((obj) => Object.keys(obj));
     let flatKeysArray = [].concat(...keysArray);
@@ -85,29 +85,29 @@ const googleUserCreation = {
     final = { ...final, "companyId": id };
     console.log(final);
     try {
-      const definemodel = mongoose.model("UserInfos", defineschema);
-      const userinfo = await definemodel.create(final);
-      return userinfo;
+      const definemodel = mongoose.model("Roles", defineschema);
+      const rolesinfo = await definemodel.create(final);
+      return rolesinfo;
     } catch (e) {
-      mongoose.deleteModel("UserInfos");
-      const userinfo = await mongoose
-        .model("UserInfos", defineschema)
+      mongoose.deleteModel("Roles");
+      const rolesinfo = await mongoose
+        .model("Roles", defineschema)
         .create(final);
-      return userinfo;
+      return rolesinfo;
     }
   },
-  getAllUser: async (schema,id) => {
+  getAllRoles: async (schema,id) => {
     try {
       const defineschema = new mongoose.Schema(schema);
-      let UserInfosModel;
+      let rolesInfoModel;
       try {
-        UserInfosModel = mongoose.model("UserInfos");
+        rolesInfoModel = mongoose.model("Roles");
       } catch (error) {
-        UserInfosModel = mongoose.model("UserInfos", defineschema);
+        rolesInfoModel = mongoose.model("Roles", defineschema);
       }
 
-      const users = await UserInfosModel.find({companyId:id});
-      return users;
+      const roles = await rolesInfoModel.find({companyId:id});
+      return roles;
     } catch (error) {
       // Handle any errors that occur during the query
       console.error("Error retrieving users:", error);
@@ -116,4 +116,4 @@ const googleUserCreation = {
   },
 };
 
-module.exports = { googleUserSchemaStructure, googleUserCreation };
+module.exports = { RoleSchemaStructure, roleCreation };

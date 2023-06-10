@@ -14,10 +14,10 @@ const connectDB= async()=>{
      console.log(`connected to the MongoDB Database ${con.connection.name}`);
     }
     catch(err){
-     console.log(err)
-     //console.log('Retrying in 10 seconds...');
-   //  setTimeout(connectDB, 10000);;
-     process.exit(1);
+      console.log(err)
+      console.log('Retrying in 10 seconds...');
+      setTimeout(connectDB, 10000);;
+      process.exit(1);
     }
 }
 module.exports = connectDB;

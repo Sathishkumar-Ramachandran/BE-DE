@@ -85,13 +85,13 @@ const userCreation = {
     final = { ...final, "companyId": id };
     console.log(final);
     try {
-      const definemodel = mongoose.model("UserInfos", defineschema);
+      const definemodel = mongoose.model("Users", defineschema);
       const userinfo = await definemodel.create(final);
       return userinfo;
     } catch (e) {
-      mongoose.deleteModel("UserInfos");
+      mongoose.deleteModel("Users");
       const userinfo = await mongoose
-        .model("UserInfos", defineschema)
+        .model("Users", defineschema)
         .create(final);
       return userinfo;
     }
@@ -101,9 +101,9 @@ const userCreation = {
       const defineschema = new mongoose.Schema(schema);
       let UserInfosModel;
       try {
-        UserInfosModel = mongoose.model("UserInfos");
+        UserInfosModel = mongoose.model("Users");
       } catch (error) {
-        UserInfosModel = mongoose.model("UserInfos", defineschema);
+        UserInfosModel = mongoose.model("Users", defineschema);
       }
 
       const users = await UserInfosModel.find({companyId:id});

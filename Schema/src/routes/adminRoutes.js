@@ -5,7 +5,7 @@ const {
 } = require("../logics/adminUserCollection");
 const adminRouter = express.Router();
 
-adminRouter.post("/addMongoSchema", async (req, res) => {
+adminRouter.post("/userschema/123456", async (req, res) => {
   const flag = await UserSchemaStructure.checkWithCompanyId(req.body.companyId);
   console.log(flag);
   if (flag === 1) {
@@ -36,7 +36,7 @@ adminRouter.get("/getSchema/:companyid/", async (req, res) => {
   }
 });
 
-adminRouter.post("/addUser", async (req, res) => {
+adminRouter.post("/createuser/:companyid", async (req, res) => {
   const schema = await UserSchemaStructure.getSchema(req.body.companyId);
   if (schema) {
     const d = await userCreation.addUser(schema.mongo_schema, req.body.data,req.body.companyId);
@@ -50,7 +50,7 @@ adminRouter.post("/addUser", async (req, res) => {
   }
 });
 
-adminRouter.get("/getAllUser/:companyid", async (req, res) => {
+adminRouter.get("/getallusers/:companyid", async (req, res) => {
   const schema = await UserSchemaStructure.getSchema(req.params.companyid);
   if (schema) {
     const allusers=await userCreation.getAllUser(schema.mongo_schema,req.params.companyid);
