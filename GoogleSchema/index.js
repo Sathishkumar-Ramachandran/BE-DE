@@ -8,6 +8,7 @@ const campaignRouter =require('./src/routes/campaignRoutes');
 const rolesRouter = require('./src/routes/roleRoutes')
 const userRouter = require('./src/routes/userRoutes');
 const adminuserRouter = require('./src/routes/userRoutesAdmin');
+const adsRouter = require('./src/routes/AdsRoutes')
 const app = Express();
 
 (async()=>{
@@ -20,7 +21,7 @@ const app = Express();
     app.use('/api/formfields/google/campaigns', campaignRouter);
     app.use('/api/formfields/google/users/roles', rolesRouter);
     app.use('/api/formfields/google/users/', userRouter);
-    
+    app.use('/api/formfields/google/ads', adsRouter);
     await connectDB();
     app.listen(10008,()=>{
         console.log(`Auth API running on ${10008}`);
