@@ -1,5 +1,6 @@
 const campaignSchema = require("../models/campaignSchema");
 const mongoose = require("mongoose");
+const producer = require("../models/producerDB");
 const kafka = require('kafka-node');
 
 
@@ -98,6 +99,7 @@ const campaignCreation = {
     console.log(final);
     try {
       const definemodel = mongoose.model("Campaigns", defineschema);
+      
       const campaignInfo = await definemodel.create(final);
       return campaignInfo;
     } catch (e) {
@@ -155,4 +157,4 @@ const KafkaQueue={
       
   },
 }
-module.exports = { CampaignStructure, campaignCreation,KafkaQueue };
+module.exports = { CampaignStructure, campaignCreation, KafkaQueue };
