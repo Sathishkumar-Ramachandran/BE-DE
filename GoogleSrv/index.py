@@ -1,4 +1,5 @@
 from flask import Flask, request
+<<<<<<< Updated upstream
 import threading
 from google.ads.googleads.client import GoogleAdsClient
 from google.ads.googleads.errors import GoogleAdsException
@@ -105,3 +106,65 @@ def handle_googleads_exception(exception):
 
 if __name__ == '__main__':
     threading.Thread(target=app.run).start()
+=======
+from google.ads.google_ads.client import GoogleAdsClient
+from google.ads.google_ads.errors import GoogleAdsException
+
+
+
+app = Flask(__name__)
+
+# Replace with your own values
+CLIENT_ID = 'YOUR_CLIENT_ID'
+CLIENT_SECRET = 'YOUR_CLIENT_SECRET'
+DEVELOPER_TOKEN = 'YOUR_DEVELOPER_TOKEN'
+REFRESH_TOKEN = 'YOUR_REFRESH_TOKEN'
+CUSTOMER_ID = 'YOUR_CUSTOMER_ID'
+
+# Initialize the Google Ads API client
+def get_google_ads_client():
+    return GoogleAdsClient.load_from_storage()
+
+# Create a new campaign
+def create_campaign(client, customer_id, name):
+    campaign_service = client.service.campaign_service
+
+    campaign_operation = client.get_type('CampaignOperation')
+    campaign = campaign_operation.create
+
+    campaign.name.value = name
+    campaign.advertising_channel_type = client.enums.AdvertisingChannelTypeEnum.SEARCH
+
+    campaign.network_settings.target_google_search.value = True
+    campaign.network_settings.target_search_network.value = True
+    campaign.network_settings.target_content_network.value = False
+    campaign.network_settings.target_partner_search_network.value = False
+
+    campaign.status = client.enums.CampaignStatusEnum.PAUSED
+
+    campaign_operation.create.CopyFrom(campaign)
+
+    try:
+        response = campaign_service.mutate_campaigns(
+            customer_id=customer_id,
+            operations=[campaign_operation]
+        )
+        return response.results[0].resource_name
+    except GoogleAdsException as ex:
+        return str(ex)
+
+# Flask route for creating a campaign
+@app.route('/create_campaign', methods=['POST'])
+def handle_create_campaign():
+    # Get the campaign name from the request
+    name = request.form.get('name')
+
+    # Create a new campaign using the Google Ads API
+    client = get_google_ads_client()
+    campaign_resource_name = create_campaign(client, CUSTOMER_ID, name)
+
+    return f'Created campaign with resource name: {campaign_resource_name}'
+
+if __name__ == '__main__':
+    app.run()
+>>>>>>> Stashed changes
