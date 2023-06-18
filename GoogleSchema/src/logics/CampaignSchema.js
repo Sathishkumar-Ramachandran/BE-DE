@@ -1,5 +1,17 @@
 const campaignSchema = require("../models/campaignSchema");
 const mongoose = require("mongoose");
+const kafka = require('kafka-node');
+
+
+const client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
+const producer = new kafka.Producer(client);
+producer.on('error', (error) => {
+  console.error('Error occurred while initializing Kafka producer:', error);
+});
+producer.on('ready', () => {
+  console.log('Kafka producer is ready to send messages.');
+});
+
 
 const CampaignStructure = {
   addSchema: async (Obj) => {
@@ -115,6 +127,32 @@ const campaignCreation = {
       return [];
     }
   },
+  
 };
 
-module.exports = { CampaignStructure, campaignCreation };
+const KafkaQueue={
+  sendCampaigntoPy:()=>{
+    
+  // Create a Kafka message payload
+  const payloads = [
+    {
+      topic: 'googleAd',
+      messages: "message"
+    }
+  ];
+
+  // Send the message to Kafka
+  producer.send(payloads, (error, data) => {
+    if (error) {
+      console.error('Error occurred while sending message to Kafka:', error);
+      return 'Failed to send message to Kafka.';
+    } else {
+      console.log('Message sent to Kafka:', data);
+      return 'Message sent to Kafka successfully.';
+    }
+  });
+
+      
+  },
+}
+module.exports = { CampaignStructure, campaignCreation,KafkaQueue };

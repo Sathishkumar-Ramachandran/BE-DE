@@ -2,6 +2,7 @@ const express = require("express");
 const {
   CampaignStructure,
   campaignCreation,
+  KafkaQueue,
 } = require("../logics/CampaignSchema.js");
 const campaignRouter = express.Router();
 
@@ -59,4 +60,10 @@ campaignRouter.get("/allcampaigns/:companyid", async (req, res) => {
     res.send("failed");
   }
 });
+
+campaignRouter.post("/sendkafka",async(req,res)=>{
+   const queue=KafkaQueue.sendCampaigntoPy();
+   res.send(queue)
+
+})
 module.exports = campaignRouter;
