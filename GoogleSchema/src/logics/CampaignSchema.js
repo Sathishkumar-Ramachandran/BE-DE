@@ -1,6 +1,5 @@
 const campaignSchema = require("../models/campaignSchema");
 const mongoose = require("mongoose");
-const producer = require("../models/producerDB");
 const kafka = require('kafka-node');
 
 
