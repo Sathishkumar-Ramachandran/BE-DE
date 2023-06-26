@@ -1,28 +1,24 @@
 const Message = require('../models/Chat');
 
 // Get messages by user ID
-const getMessagesByUserId = async (req, res) => {
-  const { userId } = req.params;
-
+const getMessagesByUserId = async (userId) => {
   try {
     const messages = await Message.find({ userId });
-    res.json(messages);
+    return messages;
   } catch (error) {
     console.error('Failed to get messages', error);
-    res.status(500).json({ error: 'Internal server error' });
+    throw new Error('Failed to get messages');
   }
 };
 
 // Create a new message
-const createMessage = async (req, res) => {
-  const { senderId, content } = req.body;
-
+const createMessage = async (senderId, content) => {
   try {
     const newMessage = await Message.create({ senderId, content });
-    res.status(201).json(newMessage);
+    return newMessage;
   } catch (error) {
     console.error('Failed to create a message', error);
-    res.status(500).json({ error: 'Internal server error' });
+    throw new Error('Failed to create a message');
   }
 };
 
