@@ -1,17 +1,15 @@
 const campaignSchema = require("../models/campaignSchema");
 const mongoose = require("mongoose");
-const kafka = require('kafka-node');
+// const kafka = require('kafka-node');
 
-
-const client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
-const producer = new kafka.Producer(client);
-producer.on('error', (error) => {
-  console.error('Error occurred while initializing Kafka producer:', error);
-});
-producer.on('ready', () => {
-  console.log('Kafka producer is ready to send messages.');
-});
-
+// const client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
+// const producer = new kafka.Producer(client);
+// // producer.on('error', (error) => {
+// //   console.error('Error occurred while initializing Kafka producer:', error);
+// // });
+// // producer.on('ready', () => {
+// //   console.log('Kafka producer is ready to send messages.');
+// // });
 
 const CampaignStructure = {
   addSchema: async (Obj) => {
@@ -24,7 +22,10 @@ const CampaignStructure = {
           [name]: { type: y.type, require: y.required, default: y.default },
         };
       });
-      requestjson={...requestjson,companyId:{type:"Number",required:true}}
+      requestjson = {
+        ...requestjson,
+        companyId: { type: "Number", required: true },
+      };
       const schema = await campaignSchema.create({
         schema: Obj.schema,
         mongo_schema: [requestjson],
@@ -64,7 +65,10 @@ const CampaignStructure = {
           [name]: { type: y.type, required: y.required, default: y.default },
         };
       });
-      requestjson={...requestjson,companyId:{type:"Number",required:true}}
+      requestjson = {
+        ...requestjson,
+        companyId: { type: "Number", required: true },
+      };
       const result = await campaignSchema.updateOne(
         { companyId: Obj.companyId },
         { schema: Obj.schema, mongo_schema: [requestjson] }
@@ -93,12 +97,11 @@ const campaignCreation = {
       });
     });
 
-
-    final = { ...final, "companyId": id };
+    final = { ...final, companyId: id };
     console.log(final);
     try {
       const definemodel = mongoose.model("Campaigns", defineschema);
-      
+
       const campaignInfo = await definemodel.create(final);
       return campaignInfo;
     } catch (e) {
@@ -108,8 +111,8 @@ const campaignCreation = {
         .create(final);
       return campaignInfo;
     }
-  },  
-  getAllCampaigns: async (schema,id) => {
+  },
+  getAllCampaigns: async (schema, id) => {
     try {
       const campaignSchema = new mongoose.Schema(schema);
       let campaignInfoModel;
@@ -120,7 +123,7 @@ const campaignCreation = {
         console.log("Error Occured");
       }
 
-      const Campaigns = await campaignInfoModel.find({companyId:id});
+      const Campaigns = await campaignInfoModel.find({ companyId: id });
       return Campaigns;
     } catch (error) {
       // Handle any errors that occur during the query
@@ -128,32 +131,28 @@ const campaignCreation = {
       return [];
     }
   },
-  
 };
 
-const KafkaQueue={
-  sendCampaigntoPy:()=>{
-    
-  // Create a Kafka message payload
-  const payloads = [
-    {
-      topic: 'googleAd',
-      messages: "message"
-    }
-  ];
+const KafkaQueue = {
+  sendCampaigntoPy: () => {
+    // Create a Kafka message payload
+    const payloads = [
+      {
+        topic: "googleAd",
+        messages: "message",
+      },
+    ];
 
-  // Send the message to Kafka
-  producer.send(payloads, (error, data) => {
-    if (error) {
-      console.error('Error occurred while sending message to Kafka:', error);
-      return 'Failed to send message to Kafka.';
-    } else {
-      console.log('Message sent to Kafka:', data);
-      return 'Message sent to Kafka successfully.';
-    }
-  });
-
-      
+    // Send the message to Kafka
+    producer.send(payloads, (error, data) => {
+      if (error) {
+        console.error("Error occurred while sending message to Kafka:", error);
+        return "Failed to send message to Kafka.";
+      } else {
+        console.log("Message sent to Kafka:", data);
+        return "Message sent to Kafka successfully.";
+      }
+    });
   },
-}
+};
 module.exports = { CampaignStructure, campaignCreation, KafkaQueue };
