@@ -50,8 +50,7 @@ def create_campaign(campaign_data):
         print(f"Created campaign {campaign_response.results[0].resource_name}.")
     except GoogleAdsException as ex:
         raise Exception('Failed to create campaign') from ex
-from google.ads.googleads.client import GoogleAdsClient
-from google.ads.googleads.errors import GoogleAdsException
+
 
 def create_ad(ad_data):
     # Initialize Google Ads client
