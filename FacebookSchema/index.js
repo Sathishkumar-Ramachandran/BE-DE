@@ -23,6 +23,6 @@ const app = Express();
     // app.use('/api/formfields/facebook/adset', adsetRouter)
     await connectDB();
     app.listen(10002,()=>{
-        console.log(`Auth API running on ${10002}`);
+        console.log(`Facebook Schema API running on ${10002}`);
     })
 })();
