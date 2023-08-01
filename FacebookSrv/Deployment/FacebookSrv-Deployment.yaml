@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-microservice-deployment
+spec:
+  replicas: 2  # You can adjust the number of replicas as per your requirements.
+  selector:
+    matchLabels:
+      app: express-microservice
+  template:
+    metadata:
+      labels:
+        app: express-microservice
+    spec:
+      containers:
+        - name: express-microservice
+          image: YOUR_NODEJS_EXPRESS_IMAGE:latest  # Replace with your Node.js Express microservice image from the container registry.
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGODB_URI
+              value: mongodb://YOUR_MONGO_USERNAME:YOUR_MONGO_PASSWORD@mongodb-service:27017/YOUR_MONGO_DB_NAME

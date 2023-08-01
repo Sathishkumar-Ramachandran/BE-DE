@@ -1,3 +1,5 @@
+import requests
+
 from google.ads.googleads.client import GoogleAdsClient
 from google.ads.googleads.errors import GoogleAdsException
 from config.settings import get_google_ads_credentials
