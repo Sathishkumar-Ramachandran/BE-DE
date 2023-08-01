@@ -6,14 +6,16 @@ googleads_client = None
 
 def get_googleads_client():
     global googleads_client
+    companyId = 12345
     if googleads_client is None:
-        credentials = get_google_ads_credentials()
+        credentials = get_google_ads_credentials(companyId)
         googleads_client = GoogleAdsClient.load_from_dict(credentials, version='v13')
     return googleads_client
 
 def create_campaign(campaign_data):
     client = get_googleads_client()
-    customer_id = client.login_customer_id  # Replace with your Google Ads customer ID
+    customer_id = client.login_customer_id  
+    # Replace with your Google Ads customer ID
 
     campaign_budget_service = client.get_service("CampaignBudgetService")
     campaign_service = client.get_service("CampaignService")

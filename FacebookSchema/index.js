@@ -20,7 +20,8 @@ const app = Express();
     app.use('/api/formfields/facebook/users/roles', rolesRouter);
     // app.use('/api/formfields/facebook/users/', userRouter);
     app.use('/api/formfields/facebook/ads', adsRouter);
-    // app.use('/api/formfields/facebook/adset', adsetRouter)
+    //app.use('/api/formfields/facebook/adset', adsetRouter)
+    app.use('/api/facebook/mediasetup', mediasetup);
     await connectDB();
     app.listen(10002,()=>{
         console.log(`Facebook Schema API running on ${10002}`);
