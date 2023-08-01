@@ -5,6 +5,8 @@ const {
   saveData,
   updateData,
 } = require("../logics/MediaSetupLogics");
+
+
 MediaSetup.post("/saveGoogleData", async (req, res) => {
   const data = await saveData(req.body);
   if (data === 0) {
