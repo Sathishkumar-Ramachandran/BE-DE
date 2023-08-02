@@ -4,11 +4,11 @@ const {
     getDataByCompanyById,
     saveData,
     updateData,
-  } = require("../logics/MediaSetupLogics");
+  } = require("../logics/mediasetup");
 
 
 
-mediasetup.post("/saveGoogleData", async (req, res) => {
+mediasetup.post("/savefacebookData", async (req, res) => {
     const data = await saveData(req.body);
     if (data === 0) {
       res.send({ status: "0", message: "failed" });
@@ -22,7 +22,7 @@ mediasetup.get("/getDataById/:CompanyId/", async (req, res) => {
     res.send(data);
   });
   
-mediasetup.post("/updateRefreshToken",async(req,res)=>{
+mediasetup.post("/updaterefreshtoken",async(req,res)=>{
       const data = await updateData(req.body.token,req.body.companyId);
       if (data === 0) {
         res.send({ status: "0", message: "failed" });

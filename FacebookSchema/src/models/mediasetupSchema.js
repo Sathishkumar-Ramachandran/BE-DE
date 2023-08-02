@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 
-const mediaSetupSchemaStrcuture = mongoose.Schema({
+const FacebookMediaDetails = mongoose.Schema({
     app_id:{ type: String, require: true },
     app_secret:{ type: String, require: true },
     refresh_token:{ type: String, require: false },
@@ -9,7 +9,7 @@ const mediaSetupSchemaStrcuture = mongoose.Schema({
     companyId: { type: String, require: true },
   });
 
-  const MediaSetupSchema = mongoose.model("mediaSetupSchemaStrcuture", mediaSetupSchemaStrcuture);
+  const MediaSetupSchema = mongoose.model("FacebookMediaDetails", FacebookMediaDetails);
 
 
 module.exports = MediaSetupSchema;

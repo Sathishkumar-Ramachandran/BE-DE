@@ -9,6 +9,7 @@ const rolesRouter = require('./src/routes/roleRoutes')
 const userRouter = require('./src/routes/userRoutes');
 //const adminuserRouter = require('./src/routes/userRoutesAdmin');
 const adsRouter = require('./src/routes/AdsRoutes')
+const mediasetup = require('./src/routes/mediaSetup.js');
 const app = Express();
 
 (async()=>{
