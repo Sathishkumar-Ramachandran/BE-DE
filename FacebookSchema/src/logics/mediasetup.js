@@ -1,4 +1,4 @@
-const MediaSetupSchema = require("../models/mediaSetupSchema");
+const MediaSetupSchema = require("../models/mediasetupSchema");
 const rolesRouter = require("../routes/roleRoutes");
 
 const getDataByCompanyById = async (id) => {
