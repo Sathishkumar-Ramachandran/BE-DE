@@ -2,14 +2,30 @@ const express = require("express");
 const authRouter = express.Router();
 const { AuthService, UserVerification } = require("../logics/authServices");
 const axios=require('axios');
+
+require('dotenv').config();
+const jwtSecret = process.env.JWT_SECRET;
+
+
 authRouter.post("/validEmail", async (req, res) => {
-  const data = await AuthService.findUserByMail(req.params.email);
-  if (data) {
-    res.send({ d: 1 });
-  } else {
-    res.send({ d: 0 });
+  try {
+    const data = await AuthService.findUserByMail(req.params.email);
+    res.send({ d: data ? 1 : 0 });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
+
+
+// authRouter.post("/validEmail", async (req, res) => {
+//   const data = await AuthService.findUserByMail(req.params.email);
+//   if (data) {
+//     res.send({ d: 1 });
+//   } else {
+//     res.send({ d: 0 });
+//   }
+// });
 
 
 authRouter.post('/checkCompanyName',async(req,res)=>{
@@ -83,24 +99,50 @@ authRouter.post('/register',async(req,res)=>{
      res.status(201).send({d:0})
     }
 })
-authRouter.post('/login',async(req,res)=>{
-  const authUser=await AuthService.findUserByMail(req.body.email);
-  if(authUser){
-    const match = await bcrypt.compare(req.body.password, authUser.password);
-    if (match) {
-      const payload = { userMail:authUser.email,user_id:authUser.user_id,user_type:authUser.user_type };
-      const secret = "Double#Engine@456";
-      const options = { expiresIn: "1h" };
-      const token = jwt.sign(payload, secret, options);
-      res.status(201).send({ token });
+
+authRouter.post('/login', async (req, res) => {
+  try {
+    const authUser = await AuthService.findUserByMail(req.body.email);
+    if (authUser) {
+      const match = await bcrypt.compare(req.body.password, authUser.password);
+      if (match) {
+        const payload = { userMail: authUser.email, user_id: authUser.user_id, user_type: authUser.user_type };
+        const secret = process.env.JWT_SECRET || "DefaultSecretShouldBeReplaced";
+        const options = { expiresIn: "1h" };
+        const token = jwt.sign(payload, secret, options);
+        res.status(201).send({ token });
+      } else {
+        return res.send({ d: 0 });
+      }
     } else {
-      return res.send({d:0});
+      res.send({ d: 0 });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
   }
-  else{
-    res.send({d:0})
-  }
-})
+});
+
+
+
+// authRouter.post('/login',async(req,res)=>{
+//   const authUser=await AuthService.findUserByMail(req.body.email);
+//   if(authUser){
+//     const match = await bcrypt.compare(req.body.password, authUser.password);
+//     if (match) {
+//       const payload = { userMail:authUser.email,user_id:authUser.user_id,user_type:authUser.user_type };
+//       const secret = "Double#Engine@456";
+//       const options = { expiresIn: "1h" };
+//       const token = jwt.sign(payload, secret, options);
+//       res.status(201).send({ token });
+//     } else {
+//       return res.send({d:0});
+//     }
+//   }
+//   else{
+//     res.send({d:0})
+//   }
+// })
 
 
 module.exports = authRouter;

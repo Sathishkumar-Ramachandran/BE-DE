@@ -17,7 +17,7 @@ const app= Express();
     await connectDB();
     
     app.use('/api/auth',authRouter)
-    //api/auth/validEmai
+    //api/auth/validEmail
     
     
     app.listen(10001,()=>{

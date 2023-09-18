@@ -25,11 +25,8 @@ companyRouter.post('/createCompany',async(req,res)=>{
      }
 })
 companyRouter.post('/checkingapi',async(req,res)=>{
-     
-       data={}
-
+        data={}
         res.status(201).send({data})
-     
 })
 
 
