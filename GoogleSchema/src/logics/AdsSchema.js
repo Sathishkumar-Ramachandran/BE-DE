@@ -101,6 +101,7 @@ const adsCreation = {
     try {
       const adsSchema = new mongoose.Schema(schema);
       let adsInfoModel;
+      //console.log('adsSchema',adsSchema);
       try {
         adsInfoModel = mongoose.model("ads");
       } catch (error) {
@@ -108,7 +109,11 @@ const adsCreation = {
         console.log("Error Occured");
       }
 
-      const Ads = await adsInfoModel.find({companyId:id});
+      const Ads = await adsInfoModel.find({companyId:id}, 
+        { _id: 0,
+         __v: 0,
+         companyId: 0});
+
       return Ads;
     } catch (error) {
       // Handle any errors that occur during the query
