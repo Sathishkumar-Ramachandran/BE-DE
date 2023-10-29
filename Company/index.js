@@ -1,21 +1,29 @@
-const Express=require('express');
-const BodyParser=require('body-parser');
-const cors=require('cors'); 
-const DBconnection=require('./src/config/DBconnection')
+const Express = require('express');
+const BodyParser = require('body-parser');
+const cors = require('cors'); 
 const morgan = require('morgan');
-const companyRouter=require('./src/routes/routes')
-const app= Express();
+const app = Express();
+require('dotenv').config();
 
+const PORT = process.env.PORT || 10007;
 
-(async ()=>{
+// Internal imports
+const companyRouterV1 = require('./src/routes/v1/routes'); // Assuming v1 of the API
+//const companyRouterV2 = require('./src/routes/v2/routes'); // Assuming v2 of the API
+const DBconnection = require('./src/config/DBconnection');
+
+(async () => {
     await DBconnection();
     app.use(morgan('dev'));
     app.use(BodyParser.urlencoded({ extended: false }));
     app.use(BodyParser.json());
     app.use(cors());
-    app.use('/api/company',companyRouter)
-    app.listen(10002,()=>{
-        console.log(`Company API running on ${10002}`);
-    })
-}
-)();
+
+    // API Versioning
+    app.use('/api/v1/company', companyRouterV1);
+    //app.use('/api/v2/company', companyRouterV2);
+
+    app.listen(PORT, () => {
+        console.log(`Company API running on ${PORT}`);
+    });
+})();

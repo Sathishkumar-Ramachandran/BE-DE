@@ -1,8 +1,9 @@
 const moongoose= require('mongoose');
+const env = require('dotenv');
 
 moongoose.set('strictQuery', true);
 
-const DB = "mongodb+srv://teamproject:Sathish123@cluster0.wqp3wtc.mongodb.net/?retryWrites=true&w=majority"
+const DB = process.env.DB;
 
 const connectDB= async()=>{
     const mongoOptions = {
