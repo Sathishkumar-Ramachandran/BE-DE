@@ -106,9 +106,9 @@ authRouter.post('/login', async (req, res) => {
     if (authUser) {
       const match = await bcrypt.compare(req.body.password, authUser.password);
       if (match) {
-        const payload = { userMail: authUser.email, user_id: authUser.user_id, user_type: authUser.user_type };
+        const payload = { companyID: authUser.companyID ,userMail: authUser.email, user_id: authUser.user_id, user_type: authUser.user_type };
         const secret = process.env.JWT_SECRET || "DefaultSecretShouldBeReplaced";
-        const options = { expiresIn: "1h" };
+        const options = { expiresIn: "24h" };
         const token = jwt.sign(payload, secret, options);
         res.status(201).send({ token });
       } else {
