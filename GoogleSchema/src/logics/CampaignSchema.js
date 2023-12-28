@@ -123,7 +123,10 @@ const campaignCreation = {
         console.log("Error Occured");
       }
 
-      const Campaigns = await campaignInfoModel.find({ companyId: id });
+      const Campaigns = await campaignInfoModel.find({ companyId: id }, 
+      { _id: 0,
+        __v: 0,
+        companyId: 0});
       return Campaigns;
     } catch (error) {
       // Handle any errors that occur during the query

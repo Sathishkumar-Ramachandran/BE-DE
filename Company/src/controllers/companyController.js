@@ -1,4 +1,4 @@
-const CompanyInfo = require("../models/schema");
+const CompanyInfo = require("../models/companyModels.js");
 
 const CompanyService = {
   getCompanyInfo: async (email) => {
@@ -14,6 +14,7 @@ const CompanyService = {
         user_id: params.user_id,
         verified: true,
         plan_id: 1,
+        dbName
       });
      
       return c

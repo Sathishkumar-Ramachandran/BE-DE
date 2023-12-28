@@ -13,9 +13,11 @@ const app= Express();
     app.use(BodyParser.urlencoded({ extended: false }));
     app.use(BodyParser.json());
     app.use(cors());
-    app.use('/api/company',companyRouter)
-    app.listen(10002,()=>{
-        console.log(`Company API running on ${10002}`);
+    
+    app.use('/api/v1/company', companyRouter);
+    //app.use('/api/company',companyRouter)
+    app.listen(10005,()=>{
+        console.log(`Company API running on ${10005}`);
     })
 }
 )();

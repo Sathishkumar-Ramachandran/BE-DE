@@ -1,22 +1,24 @@
-const moongoose= require('mongoose');
+const { Pool } = require('pg');
+const dotenv = require('dotenv');
 
-moongoose.set('strictQuery', true);
+dotenv.config();
 
-const DB = "mongodb+srv://teamproject:Sathish123@cluster0.wqp3wtc.mongodb.net/?retryWrites=true&w=majority"
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
 
-const connectDB= async()=>{
-    const mongoOptions = {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        connectTimeoutMS: 30000, 
-      };
-    try{
-     const con=await moongoose.connect(DB)
-     console.log(`connected to the MongoDB Database ${con.connection.name}`);
-    }
-    catch(err){
-     console.log(err)
-     process.exit(1);
-    }
-}
-module.exports=connectDB;
+pool.on('error', (err) => {
+  console.error('Database connection error:', err.message);
+});
+
+module.exports = {
+  query: (text, params) => pool.query(text, params),
+  shutdown: () => pool.end(),
+};

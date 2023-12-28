@@ -15,7 +15,7 @@ const app= Express();
     app.use(BodyParser.json());
     app.use(cors());
     app.use(morgan('dev'));
-    app.use('/api/cassandra/FormFields', authorize,userRouter)
+    //app.use('/api/cassandra/FormFields', authorize,userRouter)
     app.use('/api/formfields/admin/users',authorize, adminRouter)
     app.use('/api/formfields/admin/users', authorize, roleRouter); 
     // app.use('/api/formfields/google', googleRouter);

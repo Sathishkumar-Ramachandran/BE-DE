@@ -1,4 +1,4 @@
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 
 
 const companySchema = new mongoose.Schema({
@@ -12,13 +12,14 @@ const companySchema = new mongoose.Schema({
    verified:{type:Boolean,default:false},
    plan_id:{type:Number,required:true},
    expired_on:{type:Date,required:false},
-   companyAddress:{
+   companyAddress:{                                                   
       City:{type:String},
       State:{type:String},
       Country:{type:String},
       ZipCode:{type:String},
       Phone:{type:String},
-   }
+   },
+   dbName: { type: String, required: true, unique: true },
 })
 
 const CompanyInfo = mongoose.model('CompanyInfo', companySchema);
