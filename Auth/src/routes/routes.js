@@ -1,7 +1,7 @@
 const express = require("express");
 const authRouter = express.Router();
 const { AuthService, UserVerification } = require("../logics/authServices");
-const axios=require('axios');
+const axios = require('axios');
 
 require('dotenv').config();
 const jwtSecret = process.env.JWT_SECRET;
@@ -18,14 +18,7 @@ authRouter.post("/validEmail", async (req, res) => {
 });
 
 
-// authRouter.post("/validEmail", async (req, res) => {
-//   const data = await AuthService.findUserByMail(req.params.email);
-//   if (data) {
-//     res.send({ d: 1 });
-//   } else {
-//     res.send({ d: 0 });
-//   }
-// });
+
 
 
 authRouter.post('/checkCompanyName',async(req,res)=>{

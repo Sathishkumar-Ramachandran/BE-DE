@@ -1,33 +1,33 @@
-const express =require('express');
-const companyRouter=express.Router();
-const CompanyService=require('../../logics/companyService');
+import { Router } from 'express';
 
 
-companyRouter.get('/:email',async(req,res)=>{
-    const c = await CompanyService.getCompanyInfo(req.params.email);
-    if(c){
-        res.status(201).send({d:c})
+
+import { getCompanyInfo, createCompanyInfo } from '../../controllers/v1/companyController.js';
+
+const companyRouter = Router();
+
+
+companyRouter.get('/getcompany',async(req,res)=>{
+    const { companyID } = req.body;
+    const company = await getCompanyInfo(companyID);
+    if(!company){
+        res.status(500).send( {d: "Error while retrieving company details"} )
     }
-    else{
-        res.status(201).send({d:0})
+    else {
+       return res.status(201).send({d:company});
     }
     
 })
-companyRouter.post('/createCompany',async(req,res)=>{
-     const data=await CompanyService.createCompanyInfo(req.body);
+companyRouter.post('/createCompany', async (req,res)=>{
+     const data = await createCompanyInfo(req.body);
      if(data){
         res.status(201).send({data})
      }
      else{
-        res.send(201).send({d:0})
+        res.status(500).send({"Internal Server Error"})
      }
 })
-companyRouter.post('/checkingapi',async(req,res)=>{
-        data={}
-        res.status(201).send({data})
-})
 
 
 
-
-module.exports=companyRouter;
+module.exports = companyRouter;
